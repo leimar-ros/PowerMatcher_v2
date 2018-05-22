@@ -75,7 +75,7 @@ public class PotentialSession {
                         // Also see that in the SessionImpl the update*() methods are synchronized
                         matcherEndpoint.connectToAgent(session);
                         agentEndpoint.connectToMatcher(session);
-                        LOGGER.debug("Connected MatcherEndpoint '{}' with AgentEndpoint '{}' with Session {}",
+                        LOGGER.debug("Session Connected MatcherEndpoint '{}' with AgentEndpoint '{}' with Session {}",
                                      matcherEndpoint.getAgentId(),
                                      agentEndpoint.getAgentId(),
                                      session.getSessionId());

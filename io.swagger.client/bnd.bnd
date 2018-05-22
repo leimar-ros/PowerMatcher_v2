@@ -1,0 +1,21 @@
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+
+Import-Package: \
+	!com.google.gson.internal.bind.util,\
+	!com.squareup.okhttp,\
+	!com.squareup.okhttp.internal.http,\
+	!com.squareup.okhttp.logging,\
+	!io.gsonfire,\
+	!io.swagger.annotations,\
+	!okio,\
+	!org.threeten.bp,\
+	!org.threeten.bp.format,\
+	!org.threeten.bp.temporal,\
+	*
+Bundle-ClassPath: .
+Export-Package: \
+	io.swagger.client,\
+	io.swagger.client.api,\
+	io.swagger.client.auth,\
+	io.swagger.client.model
+Bundle-Version: 1.0.0

@@ -67,11 +67,11 @@ public class WebsocketClient
         @Meta.AD(deflt = "matcherendpointproxy", description = "The unique identifier of the agent")
         String agentId();
 
-        @Meta.AD(deflt = "connection1", description = "The unique identifier of the connection (e.g. username)")
+        @Meta.AD(deflt = "connection5", description = "The uniq identifier of the connection (e.g. username)")
         String connectionId();
 
-        @Meta.AD(deflt = "ws://localhost:8080/powermatcher/websocket",
-                 description = "URL of powermatcher websocket endpoint.")
+        @Meta.AD(deflt = "ws://192.168.0.152:8080/powermatcher/websocket",
+                 description = "URL daw")
         String powermatcherUrl();
 
         @Meta.AD(deflt = "30", description = "reconnect timeout keeping the connection alive.")
@@ -276,6 +276,7 @@ public class WebsocketClient
 
     /**
      * {@inheritDoc}
+     *
      */
     @Override
     protected void performUpdate(AggregatedBid aggregatedBid) {
@@ -293,16 +294,30 @@ public class WebsocketClient
      * @param newBid
      *            the bid to publish
      * @return bidupdate containing bidnumber and published bid
+     *
      */
     private BidUpdate publishBid(AggregatedBid newBid) {
+
+        LOGGER.debug("Please show up.");
+
         BidUpdate update = new BidUpdate(newBid, bidNumberGenerator.incrementAndGet());
         PmJsonSerializer serializer = new PmJsonSerializer();
         String message = serializer.serializeBidUpdate(update);
+        LOGGER.debug("Please show up1.");
+
+        /*
+         * InetAddress IPhl; try { IPhl = InetAddress.getLocalHost(); data.bsourceIP(IPhl.getHostAddress()); // IP of
+         * the localhost } catch (UnknownHostException e1) { // TODO Auto-generated catch block e1.printStackTrace(); }
+         */
+        LOGGER.info("Magpakita ka pls");
+        /*
+         * Sending data to the blockchain
+         */
 
         if (isRemoteConnected()) {
             try {
                 remoteSession.getRemote().sendString(message);
-                LOGGER.debug("Sent bid update to server {}", update);
+                LOGGER.debug("Napadala ang bid update to server {}", update);
                 return update;
             } catch (IOException | WebSocketException | NullPointerException e) {
                 LOGGER.error("Unable to send new bid to remote agent. Reason {}", e);
@@ -313,7 +328,23 @@ public class WebsocketClient
                         remoteSession == null ? false : remoteSession.isOpen());
             return null;
         }
+
+        /*
+         * ApiClient client = new ApiClient(); client.setBasePath("http://192.168.0.100:3000/");
+         * client.setConnectTimeout(60000); client.setDebugging(true); HlBidApi HlApi = new HlBidApi(); HLBid data = new
+         * HLBid(); // Bid | Model instance data data.hlBidNumber(Integer.toString(update.getBidNumber())); // bidnumber
+         * for BC double[] BidValue = newBid.getDemand(); ArrayList<Double> BidValueList = new ArrayList<Double>(); for
+         * (double d : BidValue) { BidValueList.add(d); } InetAddress IPhl; try { IPhl = InetAddress.getLocalHost();
+         * data.bsourceIP(IPhl.getHostAddress()); // IP of the localhost } catch (UnknownHostException e1) { // TODO
+         * Auto-generated catch block e1.printStackTrace(); } try { HLBid result = HlApi.hLBidCreate(data);
+         * LOGGER.debug("gg boys{}", result); } catch (ApiException e) {
+         * LOGGER.error("Exception when calling BidApi#bidCreate {}", e); }
+         */
     }
+
+    /**
+     * Send data to the BlockChain
+     */
 
     /**
      * Register the MatcherEndpoint service
@@ -334,3 +365,27 @@ public class WebsocketClient
         }
     }
 }
+
+/*
+ * package io.swagger.example;
+ *
+ * import io.swagger.client.*; import io.swagger.client.auth.*; import io.swagger.client.model.*; import
+ * io.swagger.client.api.BidApi;
+ *
+ * import java.io.File; import java.util.*;
+ *
+ * public class BidApiExample {
+ *
+ * public static void main(String[] args) {
+ *
+ * BidApi apiInstance = new BidApi();
+ *
+ * String BidClass = "org.powermatcher.Bid"; String BidIP = "192.168.0.22"; String BidNumber = "22";
+ *
+ * double[] BidValue = {30,40.55,55.55,99.99}; ArrayList<Double> BidValueList = new ArrayList<Double>(); for(double d :
+ * BidValue) BidValueList.add(d);
+ *
+ * Bid data = new Bid(); // Bid | Model instance data data.bsourceIP("192.168.0.99"); data.bidNumber("11");
+ * data.value(BidValueList); try { Bid result = apiInstance.bidCreate(data); System.out.println(result); } catch
+ * (ApiException e) { System.err.println("Exception when calling BidApi#bidCreate"); e.printStackTrace(); } } }
+ */
